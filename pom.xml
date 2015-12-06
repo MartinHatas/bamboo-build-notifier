@@ -9,6 +9,39 @@
     <version>1.0-SNAPSHOT</version>
 
 
+    <properties>
+        <web.laf.version>1.28</web.laf.version>
+        <log4j2.version>2.4.1</log4j2.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>weblaf-core</artifactId>
+            <version>${web.laf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>weblaf-ui</artifactId>
+            <version>${web.laf.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>bamboo-build-notifier</finalName>
         <plugins>
@@ -35,19 +68,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>de.sciss</groupId>
-            <artifactId>weblaf-core</artifactId>
-            <version>1.28</version>
-        </dependency>
-        <dependency>
-            <groupId>de.sciss</groupId>
-            <artifactId>weblaf-ui</artifactId>
-            <version>1.28</version>
-        </dependency>
-    </dependencies>
-
 
 </project>

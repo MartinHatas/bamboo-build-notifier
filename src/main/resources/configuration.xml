@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+    <Username>user</Username>
+    <Password>pass</Password>
+    <BambooServers>
+        <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
+        <MonitoredBuilds>
+            <BuildId>MyProject</BuildId>
+        </MonitoredBuilds>
+    </BambooServers>
+</Configuration>
