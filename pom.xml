@@ -8,10 +8,43 @@
     <artifactId>bamboo-build-notifier</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
+    <build>
+        <finalName>bamboo-build-notifier</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>configuration</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <clearOutputDir>false</clearOutputDir>
+                    <schemaDirectory>src/main/resources</schemaDirectory>
+                    <schemaFiles>configuration.xsd</schemaFiles>
+                    <packageName>cz.hatoff.bbn.configuration.xsd</packageName>
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>de.sciss</groupId>
-            <artifactId>weblaf</artifactId>
+            <artifactId>weblaf-core</artifactId>
+            <version>1.28</version>
+        </dependency>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>weblaf-ui</artifactId>
             <version>1.28</version>
         </dependency>
     </dependencies>
