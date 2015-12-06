@@ -8,5 +8,13 @@
     <artifactId>bamboo-build-notifier</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>weblaf</artifactId>
+            <version>1.28</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
