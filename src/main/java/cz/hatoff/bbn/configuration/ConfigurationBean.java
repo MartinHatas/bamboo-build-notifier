@@ -24,7 +24,7 @@ public class ConfigurationBean {
     private final static String CONFIGURATION_FILE_PATH = "configuration.xml";
     private Configuration configuration;
 
-    public ConfigurationBean(){
+    private ConfigurationBean(){
         File configurationFile = new File(CONFIGURATION_FILE_PATH);
         LOGGER.info("Loading configuration from file  '" + configurationFile.getAbsolutePath() + "'.");
         if (configurationFile.exists()){

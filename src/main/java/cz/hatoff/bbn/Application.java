@@ -5,6 +5,7 @@ import com.alee.laf.menu.WebPopupMenu;
 import cz.hatoff.bbn.configuration.ConfigurationBean;
 import cz.hatoff.bbn.gui.SelfClosingPopupMenu;
 import cz.hatoff.bbn.state.BuildStatus;
+import cz.hatoff.bbn.state.MonitoredBuildsState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,15 +13,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Application {
+public class Application implements Observer {
 
     private static final Logger LOGGER = LogManager.getLogger(Application.class);
 
     private TrayIcon trayIcon;
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
 
+    private BuildStatus status = BuildStatus.GRAY;
+
     private ConfigurationBean configurationBean;
+    private MonitoredBuildsState monitoredBuildsState;
 
     public static void main(String[] args) {
         LOGGER.info("Starting Bamboo build notifier.");
@@ -28,9 +34,16 @@ public class Application {
     }
 
     private void start() {
-        configurationBean = ConfigurationBean.getInstance();
+        initSingletons();
         initLookAndFeel();
         initTray();
+    }
+
+    private void initSingletons() {
+        LOGGER.info("Initializing singletons.");
+        configurationBean = ConfigurationBean.getInstance();
+        monitoredBuildsState = MonitoredBuildsState.getInstance();
+        monitoredBuildsState.addObserver(this);
     }
 
     private void initLookAndFeel() {
@@ -79,5 +92,16 @@ public class Application {
                 }
             }
         });
+    }
+
+    public void update(Observable observable, Object arg) {
+        if (observable instanceof MonitoredBuildsState) {
+            LOGGER.info("Monitored build state changed.");
+            if (!monitoredBuildsState.canConnect()) {
+                trayIcon.setImage(BuildStatus.GRAY.getImage());
+                return;
+            }
+            trayIcon.setImage(monitoredBuildsState.getWorstBuildStatus().getImage());
+        }
     }
 }
