@@ -1,8 +1,6 @@
 package cz.hatoff.bbn.security;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
+import org.apache.commons.codec.binary.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -30,7 +28,7 @@ public class Encrypter {
             c = Cipher.getInstance(ALGO);
             c.init(Cipher.ENCRYPT_MODE, key);
             byte[] encVal = c.doFinal(toEncrypt.getBytes("UTF-8"));
-            String encryptedValue = new BASE64Encoder().encode(encVal);
+            String encryptedValue = new String(Base64.encodeBase64(encVal));
             return encryptedValue;
         } catch (NoSuchAlgorithmException e) {
             throw new EncrypterException(e);
@@ -53,7 +51,7 @@ public class Encrypter {
         try {
             c = Cipher.getInstance(ALGO);
             c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedData);
+            byte[] decordedValue = Base64.decodeBase64(encryptedData);
             byte[] decValue = c.doFinal(decordedValue);
             String decryptedValue = new String(decValue, "UTF-8");
             return decryptedValue;
