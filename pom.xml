@@ -76,7 +76,7 @@
                         <goals>
                             <goal>xjc</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
                 <configuration>
