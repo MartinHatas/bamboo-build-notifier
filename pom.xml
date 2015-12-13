@@ -12,9 +12,27 @@
     <properties>
         <web.laf.version>1.28</web.laf.version>
         <log4j2.version>2.4.1</log4j2.version>
+        <apache.http.version>4.5.1</apache.http.version>
+        <jackson.version>2.6.4</jackson.version>
     </properties>
 
     <dependencies>
+
+        <!--HTTP-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.http.version}</version>
+        </dependency>
+
+        <!--JSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!--LOGGING-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -30,6 +48,8 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
+
+        <!--GUI-->
         <dependency>
             <groupId>de.sciss</groupId>
             <artifactId>weblaf-core</artifactId>
@@ -40,6 +60,7 @@
             <artifactId>weblaf-ui</artifactId>
             <version>${web.laf.version}</version>
         </dependency>
+
     </dependencies>
 
     <build>

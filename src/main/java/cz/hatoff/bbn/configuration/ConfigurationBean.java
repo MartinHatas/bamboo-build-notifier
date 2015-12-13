@@ -98,4 +98,16 @@ public class ConfigurationBean {
         }
         return configurationBean;
     }
+
+    public String getDecryptedPassword() {
+        String password = configuration.getPassword();
+        if (password.startsWith(ENCRYPTED_PASSWORD_PREFIX)) {
+            try {
+                password = encrypter.decrypt(password.replaceFirst(ENCRYPTED_PASSWORD_PREFIX, ""));
+            } catch (EncrypterException e) {
+                throw new RuntimeException("Failed to decrypt password.", e);
+            }
+        }
+        return password;
+    }
 }
