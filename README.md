@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/MartinHatas/bamboo-build-notifier.svg?branch=master)](https://travis-ci.org/MartinHatas/bamboo-build-notifier)
+
 # Bamboo build notifier
 Lightweight windows tray Bamboo build notifier.
 
