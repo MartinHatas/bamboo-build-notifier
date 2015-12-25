@@ -3,17 +3,26 @@ package cz.hatoff.bbn.bamboo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results {
 
-    @JsonProperty("size")
-    private int size;
+    @JsonProperty("result")
+    private List<Result> result;
 
-    public int getSize() {
-        return size;
+    public List<Result> getResult() {
+        return result;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setResult(List<Result> result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "Results{" +
+                "result=" + result +
+                '}';
     }
 }

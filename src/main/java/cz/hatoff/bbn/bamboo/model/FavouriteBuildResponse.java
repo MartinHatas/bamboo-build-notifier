@@ -17,5 +17,10 @@ public class FavouriteBuildResponse {
         this.results = results;
     }
 
-
+    @Override
+    public String toString() {
+        return "FavouriteBuildResponse{" +
+                "results=" + results +
+                '}';
+    }
 }
