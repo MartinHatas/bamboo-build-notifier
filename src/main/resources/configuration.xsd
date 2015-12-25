@@ -16,12 +16,6 @@
     <xs:complexType name="BambooServersType">
         <xs:sequence>
             <xs:element type="xs:string" name="BambooUrl" minOccurs="1" maxOccurs="1"/>
-            <xs:element type="MonitoredBuildsType" name="MonitoredBuilds" minOccurs="1" maxOccurs="1"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="MonitoredBuildsType">
-        <xs:sequence>
-            <xs:element type="xs:string" name="BuildId" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

@@ -24,7 +24,7 @@ import java.net.URL;
 public class BambooClient {
 
     private static final Logger LOGGER = LogManager.getLogger(BambooClient.class);
-    private static final String API_PATH = "/rest/api/latest/";
+    private static final String API_PATH = "/rest/api/latest";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -66,6 +66,7 @@ public class BambooClient {
     }
 
     public FavouriteBuildResponse getFavoriteBuildStatus() {
+        LOGGER.debug("Fetching favourite builds status from Bamboo server.");
         URI uriForFavoritesBuilds = getUriForFavoritesBuilds();
         byte[] entityBytes = getResrponseEntityBytes(uriForFavoritesBuilds);
         return parseResponseIntoModel(entityBytes);
@@ -105,8 +106,8 @@ public class BambooClient {
         URI uri;
         try {
             uri = new URIBuilder(serverUri)
-                    .setPath(serverUri.getPath() + "/result")
-                    .addParameter("?favourite", null)
+                    .setPath(serverUri.getPath() + "/result.json")
+                    .addParameter("favourite", null)
                     .build();
         } catch (URISyntaxException e) {
             throw new RuntimeException("Failed to build uri for obtain favourite builds from '" + serverUri + "'", e);
@@ -123,6 +124,5 @@ public class BambooClient {
 
         }
     }
-
 
 }
