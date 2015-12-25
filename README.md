@@ -6,7 +6,7 @@ Lightweight windows tray Bamboo build notifier.
     Showing status changes of your favourite builds at Bamboo
 
 This utility is not working yet. Minimal functionality that have to be implemented for using is:
-* Scheduling of checking jobs
+* Reflect fetched status of build on tray icon
 * Tray "bubble" notifications
 
 ## Sample configuration

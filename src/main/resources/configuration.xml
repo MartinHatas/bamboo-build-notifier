@@ -4,8 +4,5 @@
     <Password>pass</Password>
     <BambooServers>
         <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
-        <MonitoredBuilds>
-            <BuildId>MyProject</BuildId>
-        </MonitoredBuilds>
     </BambooServers>
 </Configuration>
