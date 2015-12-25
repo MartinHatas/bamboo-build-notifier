@@ -2,7 +2,6 @@ package cz.hatoff.bbn;
 
 import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.menu.WebPopupMenu;
-import cz.hatoff.bbn.configuration.ConfigurationBean;
 import cz.hatoff.bbn.gui.SelfClosingPopupMenu;
 import cz.hatoff.bbn.state.BuildStatus;
 import cz.hatoff.bbn.state.MonitoredBuildsState;
@@ -24,8 +23,6 @@ public class Application implements Observer {
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
 
     private BuildStatus status = BuildStatus.GRAY;
-
-    private ConfigurationBean configurationBean;
     private MonitoredBuildsState monitoredBuildsState;
 
     public static void main(String[] args) {
@@ -34,16 +31,14 @@ public class Application implements Observer {
     }
 
     private void start() {
-        initSingletons();
         initLookAndFeel();
         initTray();
+        initObserver();
     }
 
-    private void initSingletons() {
-        LOGGER.info("Initializing singletons.");
-        configurationBean = ConfigurationBean.getInstance();
-        monitoredBuildsState = MonitoredBuildsState.getInstance();
-        monitoredBuildsState.addObserver(this);
+    private void initObserver() {
+        LOGGER.info("Initializing observer of build status.");
+        MonitoredBuildsState.getInstance().addObserver(this);
     }
 
     private void initLookAndFeel() {
