@@ -8,6 +8,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -23,7 +24,7 @@ import java.net.URL;
 
 public class BambooClient {
 
-    private static final Logger LOGGER = LogManager.getLogger(BambooClient.class);
+    private static final Logger logger = LogManager.getLogger(BambooClient.class);
     private static final String API_PATH = "/rest/api/latest";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -66,7 +67,7 @@ public class BambooClient {
     }
 
     public FavouriteBuildResponse getFavoriteBuildStatus() {
-        LOGGER.debug("Fetching favourite builds status from Bamboo server.");
+        logger.debug("Fetching favourite builds status from Bamboo server.");
         URI uriForFavoritesBuilds = getUriForFavoritesBuilds();
         byte[] entityBytes = getResrponseEntityBytes(uriForFavoritesBuilds);
         return parseResponseIntoModel(entityBytes);
@@ -86,21 +87,23 @@ public class BambooClient {
         byte[] entityBytes;
         try {
             httpResponse = httpClient.execute(httpGet);
+            validateResponse(httpResponse);
             entityBytes = EntityUtils.toByteArray(httpResponse.getEntity());
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Failed obtaining of favourite builds from '" + serverUri + "'", e);
         } finally {
-            if (httpResponse != null) {
-                try {
-                    httpResponse.close();
-                } catch (IOException e) {
-                    LOGGER.warn("Failed to close http response entity.", e);
-                }
-            }
+            HttpClientUtils.closeQuietly(httpResponse);
         }
         return entityBytes;
     }
+
+    private void validateResponse(CloseableHttpResponse httpResponse) {
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        if (statusCode != 200) {
+            throw new RuntimeException("Invalid http code in Bamboo response - '" + statusCode + " - " + httpResponse.getStatusLine().getReasonPhrase() + "'");
+        }
+    }
+
 
     private URI getUriForFavoritesBuilds() {
         URI uri;
@@ -117,12 +120,7 @@ public class BambooClient {
 
 
     public void closeClient() {
-        try {
-            httpClient.close();
-        } catch (IOException e) {
-            LOGGER.error("Failed to close http client for '" + serverUri + "'", e);
-
-        }
+        HttpClientUtils.closeQuietly(httpClient);
     }
 
 }

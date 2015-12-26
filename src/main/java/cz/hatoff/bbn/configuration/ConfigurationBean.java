@@ -16,7 +16,7 @@ public class ConfigurationBean {
 
     private static ConfigurationBean configurationBean;
 
-    private static final Logger LOGGER = LogManager.getLogger(Configuration.class);
+    private static final Logger logger = LogManager.getLogger(Configuration.class);
     public static final String ENCRYPTED_PASSWORD_PREFIX = "DES:";
 
     private Encrypter encrypter = new Encrypter();
@@ -26,12 +26,12 @@ public class ConfigurationBean {
 
     private ConfigurationBean(){
         File configurationFile = new File(CONFIGURATION_FILE_PATH);
-        LOGGER.info("Loading configuration from file  '" + configurationFile.getAbsolutePath() + "'.");
+        logger.info("Loading configuration from file  '" + configurationFile.getAbsolutePath() + "'.");
         if (configurationFile.exists()){
             configuration = readJaxbConfiguration(configurationFile, Configuration.class);
             checkIfPasswordEncrypted();
         } else {
-            LOGGER.error("Configuration file '" + configurationFile.getAbsolutePath() + "' does not exists.");
+            logger.error("Configuration file '" + configurationFile.getAbsolutePath() + "' does not exists.");
             System.exit(1);
         }
     }
@@ -40,23 +40,23 @@ public class ConfigurationBean {
         String password = configuration.getPassword();
         if (password != null) {
             if (!password.startsWith(ENCRYPTED_PASSWORD_PREFIX)) {
-                LOGGER.info("Unencrypted password found in condiguration file.");
+                logger.info("Unencrypted password found in condiguration file.");
                 encryptPassword();
             }
         } else {
-            LOGGER.error("Failed to read password from configuration.");
+            logger.error("Failed to read password from configuration.");
             System.exit(1);
         }
     }
 
     private void encryptPassword() {
         try {
-            LOGGER.info("Going to encrypt password in configuration file.");
+            logger.info("Going to encrypt password in configuration file.");
             String encryptedPassword = encrypter.encrypt(configuration.getPassword());
             configuration.setPassword(ENCRYPTED_PASSWORD_PREFIX + encryptedPassword);
             writeChangesToConfiguration();
         } catch (EncrypterException e) {
-            LOGGER.error("Failed to encrypt password.");
+            logger.error("Failed to encrypt password.");
             System.exit(1);
         }
     }
@@ -67,7 +67,7 @@ public class ConfigurationBean {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             return (T) unmarshaller.unmarshal(configurationFile);
         } catch (JAXBException e) {
-            LOGGER.error("Failed to read configuration file '" + configurationFile.getAbsolutePath() + "'", e);
+            logger.error("Failed to read configuration file '" + configurationFile.getAbsolutePath() + "'", e);
             System.exit(1);
         }
         return null;
@@ -75,7 +75,7 @@ public class ConfigurationBean {
 
     public void writeChangesToConfiguration(){
         File file = new File(CONFIGURATION_FILE_PATH);
-        LOGGER.info("Going to update configuration file '" + file.getAbsolutePath() + "'.");
+        logger.info("Going to update configuration file '" + file.getAbsolutePath() + "'.");
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Configuration.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -83,7 +83,7 @@ public class ConfigurationBean {
             jaxbMarshaller.marshal(configuration, file);
             jaxbMarshaller.marshal(configuration, System.out);
         } catch (JAXBException e) {
-            LOGGER.error("Failed to write to configuration file '" + file.getAbsolutePath() + "'", e);
+            logger.error("Failed to write to configuration file '" + file.getAbsolutePath() + "'", e);
             System.exit(1);
         }
     }

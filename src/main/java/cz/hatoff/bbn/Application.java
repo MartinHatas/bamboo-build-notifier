@@ -17,7 +17,7 @@ import java.util.Observer;
 
 public class Application implements Observer {
 
-    private static final Logger LOGGER = LogManager.getLogger(Application.class);
+    private static final Logger logger = LogManager.getLogger(Application.class);
 
     private TrayIcon trayIcon;
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
@@ -26,7 +26,7 @@ public class Application implements Observer {
     private MonitoredBuildsState monitoredBuildsState;
 
     public static void main(String[] args) {
-        LOGGER.info("Starting Bamboo build notifier.");
+        logger.info("Starting Bamboo build notifier.");
         new Application().start();
     }
 
@@ -37,30 +37,30 @@ public class Application implements Observer {
     }
 
     private void initObserver() {
-        LOGGER.info("Initializing observer of build status.");
+        logger.info("Initializing observer of build status.");
         MonitoredBuildsState.getInstance().addObserver(this);
     }
 
     private void initLookAndFeel() {
-        LOGGER.info("Initializing look and feel.");
+        logger.info("Initializing look and feel.");
         WebLookAndFeel.install();
         try {
             UIManager.setLookAndFeel(new WebLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
-            LOGGER.error("Failed to load look and feel.", e);
+            logger.error("Failed to load look and feel.", e);
             System.exit(1);
         }
     }
 
     private void initTray() {
-        LOGGER.info("Initializing tray icon.");
+        logger.info("Initializing tray icon.");
         if (SystemTray.isSupported()) {
             final SystemTray tray = SystemTray.getSystemTray();
             trayIcon = new TrayIcon(BuildStatus.GRAY.getImage(), "Bamboo build notifier", null);
             createTrayIconListener(trayIcon);
             addTrayIconIntoTray(tray);
         } else {
-            LOGGER.error("Tray is not available in the system. Shutting down application.");
+            logger.error("Tray is not available in the system. Shutting down application.");
             System.exit(1);
         }
     }
@@ -69,7 +69,7 @@ public class Application implements Observer {
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            LOGGER.error("Failed to initialize tray icon.", e);
+            logger.error("Failed to initialize tray icon.", e);
             System.exit(1);
         }
     }
@@ -91,7 +91,7 @@ public class Application implements Observer {
 
     public void update(Observable observable, Object arg) {
         if (observable instanceof MonitoredBuildsState) {
-            LOGGER.info("Monitored build state changed.");
+            logger.info("Monitored build state changed.");
             if (!monitoredBuildsState.canConnect()) {
                 trayIcon.setImage(BuildStatus.GRAY.getImage());
                 return;
