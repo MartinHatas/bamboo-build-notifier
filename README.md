@@ -10,6 +10,8 @@ Lightweight windows tray Bamboo build notifier.
 * Tray "bubble" notifications
 * Generate configuration stub on first run if configuration file does not exists
 * Fix logging into file
+* Add winsw so you can run app as a service
+* Simplify - only one Bamboo server could be queried per instance
 
 ##### Nice to have functionality
 * Configurable build checking interval
