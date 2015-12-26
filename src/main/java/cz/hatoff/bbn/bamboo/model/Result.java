@@ -10,10 +10,10 @@ public class Result {
     private int buildNumber;
 
     @JsonProperty("status")
-    private String status;
+    private String state;
 
     @JsonProperty("buildStatus")
-    private String buildStatus;
+    private String buildState;
 
     @JsonProperty("lifeCycleState")
     private String lifeCycleState;
@@ -29,20 +29,20 @@ public class Result {
         this.buildNumber = buildNumber;
     }
 
-    public String getStatus() {
-        return status;
+    public String getState() {
+        return state;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getBuildStatus() {
-        return buildStatus;
+    public String getBuildState() {
+        return buildState;
     }
 
-    public void setBuildStatus(String buildStatus) {
-        this.buildStatus = buildStatus;
+    public void setBuildState(String buildState) {
+        this.buildState = buildState;
     }
 
     public String getLifeCycleState() {
@@ -65,8 +65,8 @@ public class Result {
     public String toString() {
         return "Result{" +
                 "buildNumber=" + buildNumber +
-                ", status='" + status + '\'' +
-                ", buildStatus='" + buildStatus + '\'' +
+                ", state='" + state + '\'' +
+                ", buildState='" + buildState + '\'' +
                 ", lifeCycleState='" + lifeCycleState + '\'' +
                 ", plan=" + plan +
                 '}';
