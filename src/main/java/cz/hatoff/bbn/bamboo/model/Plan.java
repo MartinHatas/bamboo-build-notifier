@@ -12,6 +12,9 @@ public class Plan {
     @JsonProperty("shortName")
     private String shortName;
 
+    @JsonProperty("key")
+    private String key;
+
     public String getName() {
         return name;
     }
@@ -28,11 +31,20 @@ public class Plan {
         this.shortName = shortName;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     @Override
     public String toString() {
         return "Plan{" +
                 "name='" + name + '\'' +
                 ", shortName='" + shortName + '\'' +
+                ", key='" + key + '\'' +
                 '}';
     }
 }
