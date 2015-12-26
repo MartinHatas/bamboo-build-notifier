@@ -9,10 +9,10 @@ public class Result {
     @JsonProperty("buildNumber")
     private int buildNumber;
 
-    @JsonProperty("status")
+    @JsonProperty("state")
     private String state;
 
-    @JsonProperty("buildStatus")
+    @JsonProperty("buildState")
     private String buildState;
 
     @JsonProperty("lifeCycleState")

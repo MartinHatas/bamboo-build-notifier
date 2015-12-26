@@ -23,7 +23,7 @@ public class Application implements Observer {
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
 
     private BuildStatus status = BuildStatus.GRAY;
-    private MonitoredBuildsState monitoredBuildsState;
+    private MonitoredBuildsState monitoredBuildsState = MonitoredBuildsState.getInstance();
 
     public static void main(String[] args) {
         logger.info("Starting Bamboo build notifier.");
@@ -95,8 +95,10 @@ public class Application implements Observer {
             if (!monitoredBuildsState.canConnect()) {
                 trayIcon.setImage(BuildStatus.GRAY.getImage());
                 return;
+            } else {
+                trayIcon.setImage(monitoredBuildsState.getWorstBuildStatus().getImage());
             }
-            trayIcon.setImage(monitoredBuildsState.getWorstBuildStatus().getImage());
+
         }
     }
 }
