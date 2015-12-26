@@ -19,8 +19,8 @@ public class MonitoredBuildsState extends Observable {
 
     private static MonitoredBuildsState instance;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private ConfigurationBean configurationBean = ConfigurationBean.getInstance();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(configurationBean.getConfiguration().getBambooServers().size());
 
     private MonitoredBuildsState() {
         logger.info("Creating monitored builds list.");

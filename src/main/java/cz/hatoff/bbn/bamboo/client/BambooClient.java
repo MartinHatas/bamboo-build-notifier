@@ -90,7 +90,7 @@ public class BambooClient {
             validateResponse(httpResponse);
             entityBytes = EntityUtils.toByteArray(httpResponse.getEntity());
         } catch (Exception e) {
-            throw new RuntimeException("Failed obtaining of favourite builds from '" + serverUri + "'", e);
+            throw new RuntimeException("Failed obtaining of favourite builds from '" + uriForFavoritesBuilds + "'", e);
         } finally {
             HttpClientUtils.closeQuietly(httpResponse);
         }
