@@ -5,9 +5,15 @@ Lightweight windows tray Bamboo build notifier.
 
     Showing status changes of your favourite builds at Bamboo
 
-This utility is not working yet. Minimal functionality that have to be implemented for using is:
+##### This utility is not working yet. Minimal functionality that have to be implemented for using is:
 * Reflect fetched status of build on tray icon
 * Tray "bubble" notifications
+* Generate configuration stub on first run if configuration file does not exists
+* Fix logging into file
+
+##### Nice to have functionality
+* Configurable build checking interval
+* Open browser after click on the bubble
 
 ## Sample configuration
 1) Configuration is self describing
