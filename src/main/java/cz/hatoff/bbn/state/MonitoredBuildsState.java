@@ -76,12 +76,11 @@ public class MonitoredBuildsState extends Observable {
         for (Result result : favoriteBuildStatusResponse.getResults().getResult()) {
             String key = result.getPlan().getKey();
             BambooBuildState newBuildState = result.getBuildState();
-            if (favoriteBuildStatus.containsKey(key) && favoriteBuildStatus.get(key) != newBuildState) {
-                setChanged();
-                favoriteBuildStatus.put(key, newBuildState);
-            }
+            favoriteBuildStatus.put(key, newBuildState);
         }
+        setChanged();
         if (canConnect.compareAndSet(false, true)) {
+            logger.info("Connection with bamboo server has been established.");
             setChanged();
         }
     }
@@ -98,6 +97,13 @@ public class MonitoredBuildsState extends Observable {
     }
 
     public BuildStatus getWorstBuildStatus() {
-        return BuildStatus.GREEN;
+        BuildStatus worstBuildStatus = BuildStatus.GRAY;
+        for (String key : favoriteBuildStatus.keySet()) {
+            BambooBuildState bambooBuildState = favoriteBuildStatus.get(key);
+            if (worstBuildStatus == BuildStatus.GRAY || worstBuildStatus.isBetterThan(bambooBuildState.getStatus())) {
+                worstBuildStatus = bambooBuildState.getStatus();
+            }
+        }
+        return worstBuildStatus;
     }
 }

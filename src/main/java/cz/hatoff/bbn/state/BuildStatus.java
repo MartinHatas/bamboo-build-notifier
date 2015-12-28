@@ -4,10 +4,10 @@ import java.awt.*;
 
 public enum BuildStatus {
 
+    GRAY("gray.png", 4),
     GREEN("green.png", 3),
     YELLOW("yellow.png", 2),
-    RED("red.png", 1),
-    GRAY("gray.png", 0);
+    RED("red.png", 1);
 
     private String imageName;
     private int value;
@@ -23,5 +23,9 @@ public enum BuildStatus {
 
     public int getValue() {
         return value;
+    }
+
+    public boolean isBetterThan(BuildStatus status) {
+        return value > status.value;
     }
 }

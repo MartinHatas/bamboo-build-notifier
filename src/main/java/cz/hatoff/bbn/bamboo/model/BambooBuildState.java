@@ -2,18 +2,20 @@ package cz.hatoff.bbn.bamboo.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import cz.hatoff.bbn.state.BuildStatus;
 
 public enum BambooBuildState {
 
-    FAILED("Failed", 0),
-    UNKNOWN("Unknown", -1);
+    SUCCESSFUL("Successful", BuildStatus.GREEN),
+    FAILED("Failed", BuildStatus.RED),
+    UNKNOWN("Unknown", BuildStatus.RED);
 
     private final String stateName;
-    private final int code;
+    private final BuildStatus status;
 
-    BambooBuildState(String stateName, int code) {
+    BambooBuildState(String stateName, BuildStatus status) {
         this.stateName = stateName;
-        this.code = code;
+        this.status = status;
     }
 
     @JsonCreator
@@ -31,7 +33,8 @@ public enum BambooBuildState {
         return stateName;
     }
 
-    public int getCode() {
-        return code;
+    public BuildStatus getStatus() {
+        return status;
     }
+
 }

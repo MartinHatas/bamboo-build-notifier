@@ -6,10 +6,8 @@ Lightweight windows tray Bamboo build notifier.
     Showing status changes of your favourite builds at Bamboo
 
 ##### This utility is not working yet. Minimal functionality that have to be implemented for using is:
-* Reflect fetched status of build on tray icon
 * Tray "bubble" notifications
 * Generate configuration stub on first run if configuration file does not exists
-* Fix logging into file
 * Add winsw so you can run app as a service
 * Simplify - only one Bamboo server could be queried per instance
 

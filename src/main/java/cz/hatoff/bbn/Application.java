@@ -22,7 +22,7 @@ public class Application implements Observer {
     private TrayIcon trayIcon;
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
 
-    private BuildStatus status = BuildStatus.GRAY;
+    private volatile BuildStatus status = BuildStatus.GRAY;
     private MonitoredBuildsState monitoredBuildsState = MonitoredBuildsState.getInstance();
 
     public static void main(String[] args) {
@@ -93,10 +93,20 @@ public class Application implements Observer {
         if (observable instanceof MonitoredBuildsState) {
             logger.info("Monitored build state changed.");
             if (!monitoredBuildsState.canConnect()) {
+                status = BuildStatus.GRAY;
                 trayIcon.setImage(BuildStatus.GRAY.getImage());
+                trayIcon.displayMessage("Bamboo build notifier", "Connection with bamboo server has been lost.", TrayIcon.MessageType.ERROR);
                 return;
             } else {
-                trayIcon.setImage(monitoredBuildsState.getWorstBuildStatus().getImage());
+                if (status == BuildStatus.GRAY) {
+                    trayIcon.displayMessage("Bamboo build notifier", "Connection with bamboo server was established.", TrayIcon.MessageType.INFO);
+                }
+
+                BuildStatus worstBuildStatus = monitoredBuildsState.getWorstBuildStatus();
+                if (worstBuildStatus != status) {
+                    status = worstBuildStatus;
+                    trayIcon.setImage(worstBuildStatus.getImage());
+                }
             }
 
         }
