@@ -1,6 +1,7 @@
 package cz.hatoff.bbn.state;
 
 import cz.hatoff.bbn.bamboo.client.BambooClient;
+import cz.hatoff.bbn.bamboo.model.BambooBuildState;
 import cz.hatoff.bbn.bamboo.model.FavouriteBuildResponse;
 import cz.hatoff.bbn.bamboo.model.Result;
 import cz.hatoff.bbn.configuration.ConfigurationBean;
@@ -28,7 +29,7 @@ public class MonitoredBuildsState extends Observable {
     private ConfigurationBean configurationBean = ConfigurationBean.getInstance();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(configurationBean.getConfiguration().getBambooServers().size());
 
-    private final Map<String, String> favoriteBuildStatus = new ConcurrentHashMap<String, String>();
+    private final Map<String, BambooBuildState> favoriteBuildStatus = new ConcurrentHashMap<String, BambooBuildState>();
 
     private MonitoredBuildsState() {
         logger.info("Creating monitored builds list.");
@@ -59,9 +60,9 @@ public class MonitoredBuildsState extends Observable {
                             logger.error("Failed to get data from bamboo server '" + bambooServer.getBambooUrl() +"'", e);
                             if (canConnect.compareAndSet(true, false)) {
                                 setChanged();
-                                notifyObservers();
                             }
                         } finally {
+                            notifyObservers();
                             if (bambooClient != null) {
                                 logger.debug("Closing connection to '" + bambooServer.getBambooUrl() + "'");
                                 bambooClient.closeClient();
@@ -72,18 +73,16 @@ public class MonitoredBuildsState extends Observable {
     }
 
     private void updateFavoriteBuildsStatus(FavouriteBuildResponse favoriteBuildStatusResponse) {
-        boolean statusChanged = false;
         for (Result result : favoriteBuildStatusResponse.getResults().getResult()) {
             String key = result.getPlan().getKey();
-            String newBuildState = result.getBuildState();
-            if (favoriteBuildStatus.containsKey(key) && !favoriteBuildStatus.get(key).equals(newBuildState)) {
-                //status changed
+            BambooBuildState newBuildState = result.getBuildState();
+            if (favoriteBuildStatus.containsKey(key) && favoriteBuildStatus.get(key) != newBuildState) {
+                setChanged();
                 favoriteBuildStatus.put(key, newBuildState);
             }
         }
-        if (statusChanged || canConnect.compareAndSet(false, true)) {
+        if (canConnect.compareAndSet(false, true)) {
             setChanged();
-            notifyObservers();
         }
     }
 

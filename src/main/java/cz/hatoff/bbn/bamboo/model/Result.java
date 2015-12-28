@@ -10,10 +10,10 @@ public class Result {
     private int buildNumber;
 
     @JsonProperty("state")
-    private String state;
+    private BambooBuildState state;
 
     @JsonProperty("buildState")
-    private String buildState;
+    private BambooBuildState buildState;
 
     @JsonProperty("lifeCycleState")
     private String lifeCycleState;
@@ -29,19 +29,19 @@ public class Result {
         this.buildNumber = buildNumber;
     }
 
-    public String getState() {
+    public BambooBuildState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(BambooBuildState state) {
         this.state = state;
     }
 
-    public String getBuildState() {
+    public BambooBuildState getBuildState() {
         return buildState;
     }
 
-    public void setBuildState(String buildState) {
+    public void setBuildState(BambooBuildState buildState) {
         this.buildState = buildState;
     }
 
