@@ -36,8 +36,18 @@ public class ConfigurationBean {
             checkIfPasswordEncrypted();
         } else {
             logger.error("Configuration file '" + configurationFile.getAbsolutePath() + "' does not exists.");
+            createSampleConfigurationFile();
             System.exit(1);
         }
+    }
+
+    private void createSampleConfigurationFile() {
+        logger.info("Generating sample configuration file. Update the values before next application start.");
+        Configuration configuration = new Configuration();
+        configuration.setUsername("username");
+        configuration.setPassword("password");
+        configuration.setBambooUrl("http://bamboo.company.co.uk:8085");
+        writeChangesToConfiguration(configuration);
     }
 
     private void checkIfPasswordEncrypted() {
@@ -58,7 +68,7 @@ public class ConfigurationBean {
             logger.info("Going to encrypt password in configuration file.");
             String encryptedPassword = encrypter.encrypt(configuration.getPassword());
             configuration.setPassword(ENCRYPTED_PASSWORD_PREFIX + encryptedPassword);
-            writeChangesToConfiguration();
+            writeChangesToConfiguration(this.configuration);
         } catch (EncrypterException e) {
             logger.error("Failed to encrypt password.");
             System.exit(1);
@@ -81,7 +91,7 @@ public class ConfigurationBean {
         return null;
     }
 
-    public void writeChangesToConfiguration(){
+    public void writeChangesToConfiguration(Configuration configuration){
         File file = new File(CONFIGURATION_FILE_PATH);
         logger.info("Going to update configuration file '" + file.getAbsolutePath() + "'.");
         try {

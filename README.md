@@ -18,9 +18,12 @@ Lightweight windows tray Bamboo build notifier.
 * Configurable build checking interval
 * Open browser after click on the bubble
 
-## Sample configuration
-Password is converted from plaintext on first run and stored encrypted
+## Configuration
+* Configuration is read from file configuration.xml
+* If configuration.xml is not found application create sample one before shutdown
+* Password is converted from plaintext on first run and stored encrypted
 
+#### Sample configuration
 
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     <Configuration>
