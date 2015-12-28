@@ -6,7 +6,6 @@ import cz.hatoff.bbn.bamboo.model.BambooBuildState;
 import cz.hatoff.bbn.bamboo.model.FavouriteBuildResponse;
 import cz.hatoff.bbn.bamboo.model.Result;
 import cz.hatoff.bbn.configuration.ConfigurationBean;
-import cz.hatoff.bbn.configuration.xsd.BambooServersType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +27,7 @@ public class MonitoredBuildsState extends Observable {
     private static MonitoredBuildsState instance;
 
     private ConfigurationBean configurationBean = ConfigurationBean.getInstance();
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(configurationBean.getConfiguration().getBambooServers().size());
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     private final Map<String, BambooBuildState> favoriteBuildStatus = new ConcurrentHashMap<String, BambooBuildState>();
 
@@ -38,34 +37,33 @@ public class MonitoredBuildsState extends Observable {
     }
 
     private void scheduleCheckingOfBuilds() {
-        logger.info("Scheduling bamboo checking state jobs.");
-        for (final BambooServersType bambooServer : configurationBean.getConfiguration().getBambooServers()) {
-            final Runnable checkBuildStatus = getCreateBambooCheckingJob(bambooServer);
-            scheduler.scheduleAtFixedRate(checkBuildStatus, 10, 10, TimeUnit.SECONDS);
-            logger.info("Scheduled checking job of '" + bambooServer.getBambooUrl() + "' done.");
-        }
+        logger.info("Scheduling bamboo checking state job.");
+        String bambooUrl = configurationBean.getConfiguration().getBambooUrl();
+        final Runnable checkBuildStatus = getCreateBambooCheckingJob(bambooUrl);
+        scheduler.scheduleAtFixedRate(checkBuildStatus, 10, 10, TimeUnit.SECONDS);
+        logger.info("Scheduled checking job of '" + bambooUrl + "' done.");
     }
 
-    private Runnable getCreateBambooCheckingJob(final BambooServersType bambooServer) {
+    private Runnable getCreateBambooCheckingJob(final String bambooUrlString) {
         return new Runnable() {
                     public void run() {
                         BambooClient bambooClient = null;
                         try {
-                            logger.debug("Checking favourites build plans at '" + bambooServer.getBambooUrl() + "'.");
-                            URL bambooUrl = new URL(bambooServer.getBambooUrl());;
+                            logger.debug("Checking favourites build plans at '" + bambooUrlString + "'.");
+                            URL bambooUrl = new URL(bambooUrlString);;
                             bambooClient = new BambooClient(bambooUrl);
                             FavouriteBuildResponse favoriteBuildStatusResponse = bambooClient.getFavoriteBuildStatus();
                             updateFavoriteBuildsStatus(favoriteBuildStatusResponse);
-                            logger.debug("Response from '" + bambooServer.getBambooUrl() + "'" + favoriteBuildStatusResponse);
+                            logger.debug("Response from '" + bambooUrl + "'" + favoriteBuildStatusResponse);
                         } catch (Exception e) {
-                            logger.error("Failed to get data from bamboo server '" + bambooServer.getBambooUrl() +"'", e);
+                            logger.error("Failed to get data from bamboo server '" + bambooUrlString +"'", e);
                             if (canConnect.compareAndSet(true, false)) {
                                 setChanged();
                             }
                         } finally {
                             notifyObservers();
                             if (bambooClient != null) {
-                                logger.debug("Closing connection to '" + bambooServer.getBambooUrl() + "'");
+                                logger.debug("Closing connection to '" + bambooUrlString + "'");
                                 bambooClient.closeClient();
                             }
                         }

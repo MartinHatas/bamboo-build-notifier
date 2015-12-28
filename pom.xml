@@ -84,7 +84,7 @@
                     <schemaDirectory>src/main/resources</schemaDirectory>
                     <schemaFiles>configuration.xsd</schemaFiles>
                     <packageName>cz.hatoff.bbn.configuration.xsd</packageName>
-                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                    <outputDirectory>${project.basedir}/target/jaxb2</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

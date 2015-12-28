@@ -2,7 +2,5 @@
 <Configuration>
     <Username>user</Username>
     <Password>pass</Password>
-    <BambooServers>
-        <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
-    </BambooServers>
+    <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
 </Configuration>

@@ -6,11 +6,15 @@ import cz.hatoff.bbn.security.EncrypterException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.File;
+import java.net.URL;
 
 public class ConfigurationBean {
 
@@ -63,10 +67,14 @@ public class ConfigurationBean {
 
     private <T> T readJaxbConfiguration(File configurationFile, Class<T> classT){
         try {
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            URL xsdSchemaUrl = this.getClass().getResource("/configuration.xsd");
+            Schema schema = sf.newSchema(xsdSchemaUrl);
             JAXBContext jaxbContext = JAXBContext.newInstance(classT);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            unmarshaller.setSchema(schema);
             return (T) unmarshaller.unmarshal(configurationFile);
-        } catch (JAXBException e) {
+        } catch (Exception e) {
             logger.error("Failed to read configuration file '" + configurationFile.getAbsolutePath() + "'", e);
             System.exit(1);
         }

@@ -6,16 +6,10 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="Username" minOccurs="1" maxOccurs="1"/>
-                <xs:element type="xs:string" name="Password" minOccurs="1" maxOccurs="1"/>
-                <xs:element type="BambooServersType" name="BambooServers" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element type="xs:string" name="Username" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element type="xs:string" name="Password" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element type="xs:string" name="BambooUrl" minOccurs="1" maxOccurs="1" nillable="false"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
-    <xs:complexType name="BambooServersType">
-        <xs:sequence>
-            <xs:element type="xs:string" name="BambooUrl" minOccurs="1" maxOccurs="1"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
