@@ -9,12 +9,6 @@ Lightweight windows tray Bamboo build notifier.
 * Showing worst favorite build state as windows tray icon (green/yellow/red)
 * Bubble notification on any favorite build change state or dis/connect from bamboo server
 
-##### This utility is not working yet. Minimal functionality that have to be implemented for using is:
-* Add winsw so you can run app as a service
-
-##### Nice to have functionality
-* Open browser after click on the bubble
-
 ## Configuration
 * Configuration is read from file configuration.xml
 * If configuration.xml is not found application create sample one before shutdown

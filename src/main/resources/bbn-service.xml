@@ -1,0 +1,8 @@
+<service>
+    <id>BBN</id>
+    <name>Bamboo build notifier</name>
+    <description>Windows tray bamboo build notifier.</description>
+    <executable>java</executable>
+    <arguments>-Xmx16m -jar bamboo-build-notifier.jar</arguments>
+    <logmode>rotate</logmode>
+</service>

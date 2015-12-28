@@ -87,6 +87,61 @@
                     <outputDirectory>${project.basedir}/target/jaxb2</outputDirectory>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <finalName>bamboo-build-notifier</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>cz.hatoff.bbn.Application</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <!-- JAR -->
+                                <copy file="${project.basedir}/target/bamboo-build-notifier-jar-with-dependencies.jar"
+                                      tofile="${project.basedir}/target/build/bamboo-build-notifier.jar"/>
+
+                                <!-- CONFIGURATION -->
+                                <copy file="${project.basedir}/src/main/resources/configuration.xml"
+                                      tofile="${project.basedir}/target/build/configuration.xml"/>
+
+                                <!-- SERVICE WRAPPER CONFIG -->
+                                <copy file="${project.basedir}/src/main/resources/bbn-service.xml"
+                                      tofile="${project.basedir}/target/build/bbn-service.xml"/>
+
+                                <get src="http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/1.18/winsw-1.18-bin.exe"
+                                     dest="${project.basedir}/target/build/bbn-service.exe"/>
+
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
