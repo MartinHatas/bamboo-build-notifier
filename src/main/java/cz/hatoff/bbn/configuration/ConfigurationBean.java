@@ -47,6 +47,7 @@ public class ConfigurationBean {
         configuration.setUsername("username");
         configuration.setPassword("password");
         configuration.setBambooUrl("http://bamboo.company.co.uk:8085");
+        configuration.setPollingInterval(30);
         writeChangesToConfiguration(configuration);
     }
 

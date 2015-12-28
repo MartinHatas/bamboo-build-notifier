@@ -40,7 +40,7 @@ public class MonitoredBuildsState extends Observable {
         logger.info("Scheduling bamboo checking state job.");
         String bambooUrl = configurationBean.getConfiguration().getBambooUrl();
         final Runnable checkBuildStatus = getCreateBambooCheckingJob(bambooUrl);
-        scheduler.scheduleAtFixedRate(checkBuildStatus, 10, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(checkBuildStatus, 5, configurationBean.getConfiguration().getPollingInterval(), TimeUnit.SECONDS);
         logger.info("Scheduled checking job of '" + bambooUrl + "' done.");
     }
 

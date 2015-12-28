@@ -9,6 +9,7 @@
                 <xs:element type="xs:string" name="Username" minOccurs="1" maxOccurs="1" nillable="false"/>
                 <xs:element type="xs:string" name="Password" minOccurs="1" maxOccurs="1" nillable="false"/>
                 <xs:element type="xs:string" name="BambooUrl" minOccurs="1" maxOccurs="1" nillable="false"/>
+                <xs:element type="xs:int" name="PollingInterval" minOccurs="1" maxOccurs="1" nillable="false"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

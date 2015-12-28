@@ -3,4 +3,5 @@
     <Username>user</Username>
     <Password>pass</Password>
     <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
+    <PollingInterval>20</PollingInterval>
 </Configuration>
