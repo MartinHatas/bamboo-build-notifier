@@ -26,7 +26,5 @@ Password is converted from plaintext on first run and stored encrypted
     <Configuration>
         <Username>user</Username>
         <Password>DES:UQRsYb3pb1VRvbDNRAQVsg==</Password>
-        <BambooServers>
-            <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
-        </BambooServers>
+        <BambooUrl>http://bamboo.company.co.uk</BambooUrl>
     </Configuration>
