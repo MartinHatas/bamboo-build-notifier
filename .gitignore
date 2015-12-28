@@ -3,3 +3,4 @@ target/*
 *.iml
 src/main/java/cz/hatoff/bbn/configuration/xsd/*
 log.log
+application.log
