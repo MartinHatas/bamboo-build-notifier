@@ -3,10 +3,13 @@
 # Bamboo build notifier
 Lightweight windows tray Bamboo build notifier.
 
-    Showing status changes of your favourite builds at Bamboo
+    Showing status changes of your favorite builds at Bamboo
+
+## Features
+* Showing worst favorite build state as windows tray icon (green/yellow/red)
+* Bubble notification on any favorite build change state or dis/connect from bamboo server
 
 ##### This utility is not working yet. Minimal functionality that have to be implemented for using is:
-* Tray "bubble" notifications
 * Generate configuration stub on first run if configuration file does not exists
 * Add winsw so you can run app as a service
 * Simplify - only one Bamboo server could be queried per instance
@@ -16,9 +19,7 @@ Lightweight windows tray Bamboo build notifier.
 * Open browser after click on the bubble
 
 ## Sample configuration
-1) Configuration is self describing
-
-2) Password is converted from plaintext on first run and stored encrypted
+Password is converted from plaintext on first run and stored encrypted
 
 
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>

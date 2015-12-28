@@ -1,5 +1,6 @@
 package cz.hatoff.bbn.state;
 
+import cz.hatoff.bbn.Application;
 import cz.hatoff.bbn.bamboo.client.BambooClient;
 import cz.hatoff.bbn.bamboo.model.BambooBuildState;
 import cz.hatoff.bbn.bamboo.model.FavouriteBuildResponse;
@@ -76,6 +77,19 @@ public class MonitoredBuildsState extends Observable {
         for (Result result : favoriteBuildStatusResponse.getResults().getResult()) {
             String key = result.getPlan().getKey();
             BambooBuildState newBuildState = result.getBuildState();
+            BambooBuildState oldBuildState = favoriteBuildStatus.get(key);
+            if (favoriteBuildStatus.containsKey(key) && oldBuildState != newBuildState) {
+                if (newBuildState == BambooBuildState.FAILED || newBuildState == BambooBuildState.UNKNOWN) {
+                    String message = "Build '" + result.getPlan().getShortName() + "' changed changed status from '" + oldBuildState.getStateName() + "' to '" + newBuildState.getStateName() + "'.";
+                    logger.warn(message);
+                    Application.showBubbleNotificationWarn(message);
+                }
+                if (newBuildState == BambooBuildState.SUCCESSFUL) {
+                    String message = "Build '" + result.getPlan().getShortName() + "' changed changed status from '" + oldBuildState.getStateName() + "' to '" + newBuildState.getStateName() + "'.";
+                    logger.info(message);
+                    Application.showBubbleNotificationInfo(message);
+                }
+            }
             favoriteBuildStatus.put(key, newBuildState);
         }
         setChanged();

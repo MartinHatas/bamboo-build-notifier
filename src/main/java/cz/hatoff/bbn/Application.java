@@ -19,7 +19,7 @@ public class Application implements Observer {
 
     private static final Logger logger = LogManager.getLogger(Application.class);
 
-    private TrayIcon trayIcon;
+    private static TrayIcon trayIcon;
     private WebPopupMenu jpopup = new SelfClosingPopupMenu();
 
     private volatile BuildStatus status = BuildStatus.GRAY;
@@ -108,7 +108,18 @@ public class Application implements Observer {
                     trayIcon.setImage(worstBuildStatus.getImage());
                 }
             }
+        }
+    }
 
+    public static void showBubbleNotificationInfo( String text) {
+        if (trayIcon != null) {
+            trayIcon.displayMessage("Bamboo build notifier", text, TrayIcon.MessageType.INFO);
+        }
+    }
+
+    public static void showBubbleNotificationWarn(String text) {
+        if (trayIcon != null) {
+            trayIcon.displayMessage("Bamboo build notifier", text, TrayIcon.MessageType.WARNING);
         }
     }
 }
