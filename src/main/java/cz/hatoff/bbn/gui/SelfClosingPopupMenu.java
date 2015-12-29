@@ -15,9 +15,10 @@ public class SelfClosingPopupMenu extends WebPopupMenu implements ActionListener
     protected Timer timer;
 
     public SelfClosingPopupMenu() {
-        this.timer = new Timer(1000, this);
+        this.timer = new Timer(2000, this);
         timer.setRepeats(false);
         MenuSelectionManager.defaultManager().addChangeListener(this);
+        setCornerAlignment(3);
     }
 
     public void show(Component invoker, int x, int y) {

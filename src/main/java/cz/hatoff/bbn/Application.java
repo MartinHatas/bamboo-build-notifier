@@ -1,7 +1,9 @@
 package cz.hatoff.bbn;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.menu.WebPopupMenu;
+import com.alee.managers.style.skin.web.PopupStyle;
 import cz.hatoff.bbn.gui.SelfClosingPopupMenu;
 import cz.hatoff.bbn.state.BuildStatus;
 import cz.hatoff.bbn.state.MonitoredBuildsState;
@@ -10,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -74,11 +78,11 @@ public class Application implements Observer {
         }
     }
 
-    private void createTrayIconListener(TrayIcon trayIcon) {
+    private void createTrayIconListener(final TrayIcon trayIcon) {
         trayIcon.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
-                    jpopup.setLocation(e.getXOnScreen() + 10, e.getYOnScreen() - 170);
+                    jpopup.setLocation(e.getXOnScreen() - 30, e.getYOnScreen() - 65);
                     jpopup.setInvoker(jpopup);
                     jpopup.setVisible(true);
                 } else {
@@ -87,6 +91,20 @@ public class Application implements Observer {
                 }
             }
         });
+
+        createExitMenuItem();
+    }
+
+    private void createExitMenuItem() {
+        ImageIcon exitIcon = new ImageIcon(this.getClass().getClassLoader().getResource("images/exit.png"));
+        WebMenuItem exitMI = new WebMenuItem("Exit", exitIcon);
+        exitMI.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                logger.info("Exiting application.");
+                System.exit(0);
+            }
+        });
+        jpopup.add(exitMI);
     }
 
     public void update(Observable observable, Object arg) {

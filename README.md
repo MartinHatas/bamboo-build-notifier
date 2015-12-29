@@ -39,14 +39,12 @@ TODO: add link
     </Configuration>
 
 ## Run it
-You can run it standalone application or as a windows service
-
-### Standalone run
 Just run
 
     bamboo-build-notifier.bat
 
-### Windows service
-TODO: add how to run as service
+or manually run
+
+    javaw -jar bamboo-build-notifier.jar
 
 

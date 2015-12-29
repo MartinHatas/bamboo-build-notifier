@@ -123,21 +123,13 @@
                                 <copy file="${project.basedir}/target/bamboo-build-notifier-jar-with-dependencies.jar"
                                       tofile="${project.basedir}/target/build/bamboo-build-notifier.jar"/>
 
-                                <!-- STANDALONE RUNNER -->
+                                <!-- RUNNER -->
                                 <copy file="${project.basedir}/etc/bamboo-build-notifier.bat"
                                       tofile="${project.basedir}/target/build/bamboo-build-notifier.bat"/>
 
                                 <!-- CONFIGURATION -->
                                 <copy file="${project.basedir}/etc/configuration.xml"
                                       tofile="${project.basedir}/target/build/configuration.xml"/>
-
-                                <!-- SERVICE WRAPPER CONFIG -->
-                                <copy file="${project.basedir}/etc/bbn-service.xml"
-                                      tofile="${project.basedir}/target/build/bbn-service.xml"/>
-
-                                <!-- SERVICE WRAPPER BINARY-->
-                                <get src="http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/1.18/winsw-1.18-bin.exe"
-                                     dest="${project.basedir}/target/build/bbn-service.exe"/>
 
                             </tasks>
                         </configuration>

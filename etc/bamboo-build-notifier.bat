@@ -1,1 +1,1 @@
-java -jar bamboo-build-notifier.jar
+start javaw -jar bamboo-build-notifier.jar
