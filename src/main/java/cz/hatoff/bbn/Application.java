@@ -109,19 +109,21 @@ public class Application implements Observer {
 
     public void update(Observable observable, Object arg) {
         if (observable instanceof MonitoredBuildsState) {
-            logger.info("Monitored build state changed.");
             if (!monitoredBuildsState.canConnect()) {
+                logger.warn("Lost connection with bamboo server.");
                 status = BuildStatus.GRAY;
                 trayIcon.setImage(BuildStatus.GRAY.getImage());
                 trayIcon.displayMessage("Bamboo build notifier", "Connection with bamboo server has been lost.", TrayIcon.MessageType.ERROR);
                 return;
             } else {
                 if (status == BuildStatus.GRAY) {
+                    logger.info("Connection with bamboo server established.");
                     trayIcon.displayMessage("Bamboo build notifier", "Connection with bamboo server was established.", TrayIcon.MessageType.INFO);
                 }
 
                 BuildStatus worstBuildStatus = monitoredBuildsState.getWorstBuildStatus();
                 if (worstBuildStatus != status) {
+                    logger.info("Changing tray icon status to '" + worstBuildStatus.name() + "'");
                     status = worstBuildStatus;
                     trayIcon.setImage(worstBuildStatus.getImage());
                 }
