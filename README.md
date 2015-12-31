@@ -19,7 +19,7 @@ Check in project from github and simply build it by maven
 Then you found everything you need in 'target/build' folder.
 
 ### Download compiled version
-TODO: add link
+See releases https://github.com/MartinHatas/bamboo-build-notifier/releases
 
 ## Configuration
 * Configuration is read from file configuration.xml
