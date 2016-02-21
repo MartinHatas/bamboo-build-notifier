@@ -110,7 +110,8 @@ public class Application implements Observer {
             final Result result = monitoredBuildsState.getFavoriteBuildStatus().get(key);
             Icon icon = resolveIcon(result);
             ImageIcon stateIcon = new ImageIcon(icon.getImage());
-            WebMenuItem buildItem = new WebMenuItem(result.getPlan().getShortName(), stateIcon);
+            String menuItemText = String.format("#%d - %s", result.getBuildNumber(), result.getPlan().getShortName());
+            WebMenuItem buildItem = new WebMenuItem(menuItemText, stateIcon);
             buildItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
