@@ -1,51 +1,51 @@
 {
-  results: {
-    size: 1,
-    expand: "result",
-    start-index: 0,
-    max-result: 1,
-    result: [
+  "results": {
+    "size": 1,
+    "expand": "result",
+    "start-index": 0,
+    "max-result": 1,
+    "result": [
       {
-        link: {
-          href: "http://localhost:8085/rest/api/latest/result/BAM-BBN-10",
-          rel: "self"
+        "link": {
+          "href": "http://localhost:8085/rest/api/latest/result/BAM-BBN-10",
+          "rel": "self"
         },
-        plan: {
-          shortName: "Bamboo Build Notifier",
-          shortKey: "BBN",
-          type: "chain",
-          enabled: true,
-          link: {
-            href: "http://localhost:8085/rest/api/latest/plan/BAM-BBN",
-            rel: "self"
+        "plan": {
+          "shortName": "Bamboo Build Notifier",
+          "shortKey": "BBN",
+          "type": "chain",
+          "enabled": true,
+          "link": {
+            "href": "http://localhost:8085/rest/api/latest/plan/BAM-BBN",
+            "rel": "self"
           },
-          key: "BAM-BBN",
-          name: "bamboo-build-notifier - Bamboo Build Notifier",
-          planKey: {
-            key: "BAM-BBN"
+         "key": "BAM-BBN",
+         "name": "bamboo-build-notifier - Bamboo Build Notifier",
+         "planKey": {
+            "key": "BAM-BBN"
           }
         },
-        buildResultKey: "BAM-BBN-10",
-        lifeCycleState: "Finished",
-        id: 1081345,
-        key: "BAM-BBN-10",
-        planResultKey: {
-          key: "BAM-BBN-10",
-          entityKey: {
-            key: "BAM-BBN"
+        "buildResultKey": "BAM-BBN-10",
+        "lifeCycleState": "Finished",
+        "id": 1081345,
+        "key": "BAM-BBN-10",
+        "planResultKey": {
+          "key": "BAM-BBN-10",
+          "entityKey": {
+            "key": "BAM-BBN"
           },
-          resultNumber: 10
+          "resultNumber": 10
         },
-        state: "Failed",
-        buildState: "Failed",
-        number: 10,
-        buildNumber: 10
+        "state": "Failed",
+        "buildState": "Failed",
+        "number": 10,
+        "buildNumber": 10
       }
     ]
   },
-  expand: "results",
-  link: {
-    href: "http://localhost:8085/rest/api/latest/result",
-    rel: "self"
+  "expand": "results",
+  "link": {
+    "href": "http://localhost:8085/rest/api/latest/result",
+    "rel": "self"
   }
 }
