@@ -18,6 +18,9 @@ public class Result {
     @JsonProperty("lifeCycleState")
     private LifeCycleState lifeCycleState;
 
+    @JsonProperty("link")
+    private Link link;
+
     @JsonProperty("plan")
     private Plan plan;
 
@@ -61,13 +64,22 @@ public class Result {
         this.plan = plan;
     }
 
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
     @Override
     public String toString() {
         return "Result{" +
                 "buildNumber=" + buildNumber +
-                ", state='" + state + '\'' +
-                ", buildState='" + buildState + '\'' +
-                ", lifeCycleState='" + lifeCycleState + '\'' +
+                ", state=" + state +
+                ", buildState=" + buildState +
+                ", lifeCycleState=" + lifeCycleState +
+                ", link=" + link +
                 ", plan=" + plan +
                 '}';
     }

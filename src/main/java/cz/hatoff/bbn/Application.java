@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -104,10 +107,19 @@ public class Application implements Observer {
 
     private void createBuildPlanMenuItems() {
         for (String key : monitoredBuildsState.getFavoriteBuildStatus().keySet()) {
-            Result result = monitoredBuildsState.getFavoriteBuildStatus().get(key);
+            final Result result = monitoredBuildsState.getFavoriteBuildStatus().get(key);
             Icon icon = resolveIcon(result);
             ImageIcon stateIcon = new ImageIcon(icon.getImage());
             WebMenuItem buildItem = new WebMenuItem(result.getPlan().getShortName(), stateIcon);
+            buildItem.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(result.getLink().getHref()));
+                    } catch (Exception e1) {
+                        logger.error("Failed to create uri from link " + result.getLink().getHref());
+                    }
+                }
+            });
             jpopup.add(buildItem);
         }
     }

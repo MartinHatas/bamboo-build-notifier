@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Configuration>
+    <Username>admin</Username>
+    <Password>DES:UQRsYb3pb1VRvbDNRAQVsg==</Password>
+    <BambooUrl>http://localhost:8085</BambooUrl>
+    <PollingInterval>10</PollingInterval>
+</Configuration>
