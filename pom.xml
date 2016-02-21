@@ -6,8 +6,7 @@
 
     <groupId>cz.hatoff.bbn</groupId>
     <artifactId>bamboo-build-notifier</artifactId>
-    <version>1.0</version>
-
+    <version>1.1-SNAPSHOT</version>
 
     <properties>
         <web.laf.version>1.28</web.laf.version>
