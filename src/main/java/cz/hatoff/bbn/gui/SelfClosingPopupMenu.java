@@ -1,6 +1,8 @@
 package cz.hatoff.bbn.gui;
 
+import com.alee.laf.menu.PopupMenuWay;
 import com.alee.laf.menu.WebPopupMenu;
+import com.alee.managers.style.skin.web.PopupStyle;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -11,14 +13,14 @@ import java.awt.event.ActionListener;
 
 public class SelfClosingPopupMenu extends WebPopupMenu implements ActionListener, ChangeListener {
 
-
     protected Timer timer;
 
     public SelfClosingPopupMenu() {
+        super();
         this.timer = new Timer(2000, this);
         timer.setRepeats(false);
         MenuSelectionManager.defaultManager().addChangeListener(this);
-        setCornerAlignment(3);
+        setPopupStyle(PopupStyle.simple);
     }
 
     public void show(Component invoker, int x, int y) {
