@@ -2,6 +2,7 @@ package cz.hatoff.bbn.bamboo.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.hatoff.bbn.bamboo.model.FavouriteBuildResponse;
+import cz.hatoff.bbn.bamboo.model.Result;
 import cz.hatoff.bbn.configuration.ConfigurationBean;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;

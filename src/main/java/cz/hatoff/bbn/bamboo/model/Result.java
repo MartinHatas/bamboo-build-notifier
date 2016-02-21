@@ -16,7 +16,7 @@ public class Result {
     private BambooBuildState buildState;
 
     @JsonProperty("lifeCycleState")
-    private String lifeCycleState;
+    private LifeCycleState lifeCycleState;
 
     @JsonProperty("plan")
     private Plan plan;
@@ -45,11 +45,11 @@ public class Result {
         this.buildState = buildState;
     }
 
-    public String getLifeCycleState() {
+    public LifeCycleState getLifeCycleState() {
         return lifeCycleState;
     }
 
-    public void setLifeCycleState(String lifeCycleState) {
+    public void setLifeCycleState(LifeCycleState lifeCycleState) {
         this.lifeCycleState = lifeCycleState;
     }
 

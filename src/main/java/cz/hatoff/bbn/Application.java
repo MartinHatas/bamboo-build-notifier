@@ -4,7 +4,10 @@ import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.menu.WebPopupMenu;
 import com.alee.managers.style.skin.web.PopupStyle;
-import cz.hatoff.bbn.gui.SelfClosingPopupMenu;
+import cz.hatoff.bbn.bamboo.model.BambooBuildState;
+import cz.hatoff.bbn.bamboo.model.Result;
+import cz.hatoff.bbn.gui.*;
+import cz.hatoff.bbn.gui.Icon;
 import cz.hatoff.bbn.state.BuildStatus;
 import cz.hatoff.bbn.state.MonitoredBuildsState;
 import org.apache.logging.log4j.LogManager;
@@ -81,7 +84,12 @@ public class Application implements Observer {
     private void createTrayIconListener(final TrayIcon trayIcon) {
         trayIcon.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
+                jpopup.removeAll();
                 if (e.isPopupTrigger()) {
+
+                    createBuildPlanMenuItems();
+                    createExitMenuItem();
+
                     jpopup.setLocation(e.getXOnScreen() - 30, e.getYOnScreen() - 65);
                     jpopup.setInvoker(jpopup);
                     jpopup.setVisible(true);
@@ -92,7 +100,41 @@ public class Application implements Observer {
             }
         });
 
-        createExitMenuItem();
+    }
+
+    private void createBuildPlanMenuItems() {
+        for (String key : monitoredBuildsState.getFavoriteBuildStatus().keySet()) {
+            Result result = monitoredBuildsState.getFavoriteBuildStatus().get(key);
+            Icon icon = resolveIcon(result);
+            ImageIcon stateIcon = new ImageIcon(icon.getImage());
+            WebMenuItem buildItem = new WebMenuItem(result.getPlan().getShortName(), stateIcon);
+            jpopup.add(buildItem);
+        }
+    }
+
+    private Icon resolveIcon(Result result) {
+        switch (result.getLifeCycleState()) {
+            case FINISHED: {
+                switch (result.getBuildState()) {
+                    case SUCCESSFUL:
+                        return Icon.SUCCESSFUL;
+                    case FAILED:
+                        return Icon.FAILED;
+                }
+                break;
+            }
+            case IN_PROGRESS:
+                return Icon.BUILDING;
+            case QUEUED:
+                return Icon.QUEUED;
+            case PENDING:
+                return Icon.CHECKING_OUT;
+            case NOT_BUILT:
+                return Icon.FAILED;
+
+        }
+
+        return Icon.FAILED;
     }
 
     private void createExitMenuItem() {

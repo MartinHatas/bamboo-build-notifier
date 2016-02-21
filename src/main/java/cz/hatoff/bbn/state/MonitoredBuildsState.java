@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +30,7 @@ public class MonitoredBuildsState extends Observable {
     private ConfigurationBean configurationBean = ConfigurationBean.getInstance();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    private final Map<String, BambooBuildState> favoriteBuildStatus = new ConcurrentHashMap<String, BambooBuildState>();
+    private final Map<String, Result> favoriteBuildStatus = new ConcurrentHashMap<String, Result>();
 
     private MonitoredBuildsState() {
         logger.info("Creating monitored builds list.");
@@ -75,7 +76,7 @@ public class MonitoredBuildsState extends Observable {
         for (Result result : favoriteBuildStatusResponse.getResults().getResult()) {
             String key = result.getPlan().getKey();
             BambooBuildState newBuildState = result.getBuildState();
-            BambooBuildState oldBuildState = favoriteBuildStatus.get(key);
+            BambooBuildState oldBuildState = favoriteBuildStatus.containsKey(key) ? favoriteBuildStatus.get(key).getBuildState() : null;
             if (favoriteBuildStatus.containsKey(key) && oldBuildState != newBuildState) {
                 if (newBuildState == BambooBuildState.FAILED || newBuildState == BambooBuildState.UNKNOWN) {
                     String message = "Build '" + result.getPlan().getShortName() + "' changed changed status from '" + oldBuildState.getStateName() + "' to '" + newBuildState.getStateName() + "'.";
@@ -88,7 +89,7 @@ public class MonitoredBuildsState extends Observable {
                     Application.showBubbleNotificationInfo(message);
                 }
             }
-            favoriteBuildStatus.put(key, newBuildState);
+            favoriteBuildStatus.put(key, result);
         }
         setChanged();
         if (canConnect.compareAndSet(false, true)) {
@@ -111,11 +112,15 @@ public class MonitoredBuildsState extends Observable {
     public BuildStatus getWorstBuildStatus() {
         BuildStatus worstBuildStatus = BuildStatus.GRAY;
         for (String key : favoriteBuildStatus.keySet()) {
-            BambooBuildState bambooBuildState = favoriteBuildStatus.get(key);
+            BambooBuildState bambooBuildState = favoriteBuildStatus.get(key).getBuildState();
             if (worstBuildStatus == BuildStatus.GRAY || worstBuildStatus.isBetterThan(bambooBuildState.getStatus())) {
                 worstBuildStatus = bambooBuildState.getStatus();
             }
         }
         return worstBuildStatus;
+    }
+
+    public Map<String, Result> getFavoriteBuildStatus() {
+        return new HashMap<String, Result>(favoriteBuildStatus);
     }
 }
